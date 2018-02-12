@@ -52,7 +52,8 @@ function! asyncomplete#sources#tags#completor(opt, ctx)
             call s:lines_to_matches(l:matches, l:lines)
         endfor
 
-        call asyncomplete#complete(a:opt['name'], a:ctx, l:startcol, keys(l:matches))
+        let l:matches = map(keys(l:matches),'{"word":v:val,"dup":1,"icase":1,"menu": "[tag]"}')
+        call asyncomplete#complete(a:opt['name'], a:ctx, l:startcol, l:matches)
     endif
 endfunction
 
@@ -82,7 +83,8 @@ endfunction
 function! s:complete(info) abort
     let l:opt = a:info['opt']
     let l:ctx = a:info['ctx']
-    call asyncomplete#complete(l:opt['name'], l:ctx, a:info['startcol'], keys(a:info['matches']))
+    let l:matches = map(keys(a:info['matches']),'{"word":v:val,"dup":1,"icase":1,"menu": "[tag]"}')
+    call asyncomplete#complete(l:opt['name'], l:ctx, a:info['startcol'], l:matches)
 endfunction
 
 function! s:lines_to_matches(matches, lines) abort
